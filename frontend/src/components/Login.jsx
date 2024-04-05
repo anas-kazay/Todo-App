@@ -10,15 +10,11 @@ export default function Login() {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
   function handleSubmit() {
-    if (username === "anas" && password === "kazay") {
-      console.log("success");
+    if (authContext.login(username, password)) {
       setShowSuccessMessage(true);
       setShowErrorMessage(false);
-      authContext.setAuthenticated(true);
       navigate(`/welcome/${username}`);
     } else {
-      authContext.setAuthenticated(false);
-      console.log("failed");
       setShowErrorMessage(true);
       setShowSuccessMessage(false);
     }

@@ -22,7 +22,7 @@ export default function ListTodos() {
   ];
   return (
     <div className="container">
-      <h1>Things You want to Do!</h1>
+      <h1 className="mb-3">Things You want to Do!</h1>
       <div>
         <table className="table">
           <thead>
