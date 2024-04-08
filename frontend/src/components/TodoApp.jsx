@@ -8,6 +8,7 @@ import Welcome from "./Welcome";
 import Login from "./Login";
 import AuthProvider, { AuthContext } from "../security/AuthContext";
 import { useContext } from "react";
+import Todo from "./Todo";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useContext(AuthContext);
@@ -37,6 +38,14 @@ export default function TodoApp() {
               element={
                 <AuthenticatedRoute>
                   <ListTodos />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route
+              path="/todo/:id"
+              element={
+                <AuthenticatedRoute>
+                  <Todo />
                 </AuthenticatedRoute>
               }
             />
