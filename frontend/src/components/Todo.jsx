@@ -1,5 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { retrieveTodoApi, updateTodoApi } from "../api/TodoApiService";
+import {
+  retrieveTodoApi,
+  updateTodoApi,
+  createTodoApi,
+} from "../api/TodoApiService";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../security/AuthContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -16,12 +20,14 @@ export default function Todo() {
   const navigate = useNavigate();
 
   function retrieveTodos() {
-    retrieveTodoApi(username, id)
-      .then((response) => {
-        setDescription(response.data.description);
-        setTargetDate(response.data.targetDate);
-      })
-      .catch((error) => console.log(error));
+    if (id != -1) {
+      retrieveTodoApi(username, id)
+        .then((response) => {
+          setDescription(response.data.description);
+          setTargetDate(response.data.targetDate);
+        })
+        .catch((error) => console.log(error));
+    }
   }
 
   useEffect(() => retrieveTodos(), [id]);
@@ -36,22 +42,29 @@ export default function Todo() {
       done: false,
     };
     //console.log(todo);
-    updateTodoApi(username, id, todo)
-      .then((response) => {
-        navigate("/todos");
-      })
-      .catch((error) => console.log(error));
+    if (id == -1) {
+      createTodoApi(username, todo)
+        .then((response) => {
+          navigate("/todos");
+        })
+        .catch((error) => console.log(error));
+    } else {
+      updateTodoApi(username, id, todo)
+        .then((response) => {
+          navigate("/todos");
+        })
+        .catch((error) => console.log(error));
+    }
   }
 
   function validate(values) {
     let errors = {};
     if (values.description.length < 5) {
-      errors.description = "Enter atleast 5 characters";
+      errors.description = "Enter at least 5 characters";
     }
-    if (values.targetDate == null) {
-      errors.description = "Enter a target date";
+    if (!values.targetDate) {
+      errors.targetDate = "Enter a target date";
     }
-    console.log(values);
     return errors;
   }
 

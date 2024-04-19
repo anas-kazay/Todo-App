@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { retrieveHelloWorldPathVariable } from "../api/HelloWorldApiService";
+import { AuthContext } from "./../security/AuthContext";
 
 export default function Welcome() {
   const { username } = useParams();
+
+  const authContext = useContext(AuthContext);
 
   const [message, setMessage] = useState(null);
 
   function callHelloWorldRestApi() {
     console.log("called");
 
-    retrieveHelloWorldPathVariable("Anas")
+    retrieveHelloWorldPathVariable("Anas", authContext.token)
       .then((response) => {
         successfulResponse(response);
       })

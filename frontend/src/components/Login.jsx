@@ -9,8 +9,9 @@ export default function Login() {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
-  function handleSubmit() {
-    if (authContext.login(username, password)) {
+
+  async function handleSubmit() {
+    if (await authContext.login(username, password)) {
       setShowSuccessMessage(true);
       setShowErrorMessage(false);
       navigate(`/welcome/${username}`);
@@ -19,6 +20,7 @@ export default function Login() {
       setShowSuccessMessage(false);
     }
   }
+
   return (
     <div className="Login">
       <h1>Login</h1>
