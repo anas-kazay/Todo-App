@@ -1,5 +1,7 @@
 package kazay.anas.rest.webservices.backend.helloworld;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,4 +28,10 @@ public class HelloWorldController {
     public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
         return new HelloWorldBean(String.format("Hello World, %s", name));
     }
+
+    @GetMapping("/csrf-token")
+    public CsrfToken retrieveCsrfToken(HttpServletRequest resquest){
+        return (CsrfToken) resquest.getAttribute("_csrf");
+    }
+
 }

@@ -2,6 +2,10 @@ import axios from "axios";
 import { apiClient } from "./ApiClient";
 
 export const retrieveAllTodosForUsernameApi = (username) => {
+  if (username == "admin") {
+    return apiClient.get("/users/todos");
+  }
+
   return apiClient.get(`/users/${username}/todos`);
 };
 
